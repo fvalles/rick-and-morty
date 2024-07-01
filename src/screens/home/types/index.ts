@@ -24,13 +24,13 @@ export interface CharacterDto {
 }
 
 export interface InfoDto {
-    count: number;
-    pages: number;
-    next: string;
-    prev: string | null;
-  }
+  count: number;
+  pages: number;
+  next: string;
+  prev: string | null;
+}
 
 export interface CharactersDto {
-  info:InfoDto ,
-  results: CharacterDto[]
+  info: InfoDto;
+  results: CharacterDto[];
 }
