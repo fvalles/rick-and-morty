@@ -1,24 +1,16 @@
 import React from 'react';
-import styled from '@emotion/native';
-import {SafeAreaView, ScrollView, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 import {Colors, Spacers} from './src/theme';
 import {ThemeProvider} from '@emotion/react';
-
-const StyledText = styled.Text`
-  color: ${props => props.theme.Colors.loneHunter};
-`;
+import {HomeStack} from './src/stacks/home-stack';
 
 function App(): React.JSX.Element {
   return (
-    <ThemeProvider theme={{Colors, Spacers}}>
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <View>
-            <StyledText>Hello world</StyledText>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </ThemeProvider>
+    <NavigationContainer>
+      <ThemeProvider theme={{Colors, Spacers}}>
+        <HomeStack />
+      </ThemeProvider>
+    </NavigationContainer>
   );
 }
 
