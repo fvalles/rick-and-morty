@@ -10,6 +10,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@emotion/native": "^11.11.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "react": "18.2.0",
     "react-native": "0.74.2"
   },
