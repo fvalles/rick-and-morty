@@ -4,7 +4,7 @@ import {useFetchCharacters} from './queries/use-fetch-characters';
 import {Spacer} from '../../components/spacer';
 import {H3} from '../../components/typography';
 import {CharacterCard} from '../../components/character-card';
-import {Fragment, useState} from 'react';
+import {Fragment, useCallback, useState} from 'react';
 import {SafeAreaView} from 'react-native';
 import {
   CharacterRow,
@@ -47,40 +47,39 @@ export const Home = () => {
 
   const shownCharacters = getShownCharacters(paginationNumber, data?.results);
 
-  const handleChangeText = (text: string) => {
+  const handleChangeText = useCallback((text: string) => {
     setFilterSearch(text.toLowerCase());
-  };
+  }, []);
 
-  const handlePageChange = (page: number) => {
-    const division = Math.floor(page / 2);
-    const remainder = page % 2;
-    const newPage = division + remainder;
+  const handlePageChange = useCallback(
+    (page: number) => {
+      const division = Math.floor(page / 2);
+      const remainder = page % 2;
+      const newPage = division + remainder;
 
-    if (newPage !== apiPage) {
-      setApiPage(newPage);
-    }
+      if (newPage !== apiPage) {
+        setApiPage(newPage);
+      }
 
-    setPaginationNumber(page);
-  };
+      setPaginationNumber(page);
+    },
+    [apiPage],
+  );
 
-  const handleCancelPress = () => {
+  const handleCancelPress = useCallback(() => {
     setPaginationNumber(1);
     setApiPage(1);
     setFilterQueryParam('');
     setFilterSearch('');
     refetch();
-  };
+  }, []);
 
-  const handleSearchPress = () => {
+  const handleSearchPress = useCallback(() => {
     setPaginationNumber(1);
     setApiPage(1);
     setFilterQueryParam(filterSearch);
     refetch();
-  };
-
-  console.log('paginationNumber', paginationNumber);
-  console.log('apiPage', apiPage);
-  console.log('filterQueryParam', filterQueryParam);
+  }, [filterSearch]);
 
   return isSuccess ? (
     <SafeAreaView>
