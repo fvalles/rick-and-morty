@@ -6,6 +6,11 @@ export const CharacterRow = styled.View`
   justify-content: space-between;
 `;
 
+export const RickAndMortyImage = styled.Image`
+  height: 55px;
+  width: 181px;
+`;
+
 export const StyledScrollView = styled.ScrollView`
   height: 100%;
   width: 100%;

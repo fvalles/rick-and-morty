@@ -3,6 +3,7 @@
 
 export const Colors = {
   almostApricot: '#E4A788',
+  ardcoat: '#E3DEDE',
   goldenSnitch: '#F0E14A',
   loneHunter: '#97CE4C',
   nightBrown: '#44281D',

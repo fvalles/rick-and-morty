@@ -30,7 +30,7 @@ const Card = styled.View`
   display: flex;
   flex-direction: column;
   height: 210px;
-  width: ${IMAGE_DIMENSIONES}px;
+  width: 150px;
 `;
 
 const StyledImage = styled.Image`

@@ -2,18 +2,21 @@ import {useNavigation} from '@react-navigation/native';
 import {HomeStackNavigationProps} from '../../stacks/home-stack/types';
 import {useFetchCharacters} from './queries/use-fetch-characters';
 import {Spacer} from '../../components/spacer';
-import {H1, H3} from '../../components/typography';
+import {H3} from '../../components/typography';
 import {CharacterCard} from '../../components/character-card';
 import {Fragment, useState} from 'react';
 import {SafeAreaView} from 'react-native';
-import {characterMapper} from './helpers/character-mapper';
 import {
   CharacterRow,
+  RickAndMortyImage,
   ScreenContainer,
   StyledScrollView,
 } from './styled-components';
 import Pagination from '@cherry-soft/react-native-basic-pagination';
 import {Colors} from '../../theme';
+import rickAndMortyImage from '../../../assets/images/rick-and-morty.png';
+import {getShownCharacters} from './helpers/get-shown-characters';
+import {SearchBar} from '../../components/search-bar';
 
 /**
  * Constants
@@ -29,8 +32,10 @@ export const Home = () => {
   const {navigate} = useNavigation<HomeStackNavigationProps>();
   const [apiPage, setApiPage] = useState(1);
   const [paginationNumber, setPaginationNumber] = useState(1);
-  const {isPending, isError, data, error, isSuccess} =
-    useFetchCharacters(apiPage);
+  const [filterSearch, setFilterSearch] = useState('');
+  const [filterQueryParam, setFilterQueryParam] = useState('');
+  const {isPending, isError, data, error, isSuccess, refetch} =
+    useFetchCharacters(apiPage, filterQueryParam);
 
   if (isPending) {
     <H3>Loading animation lootie</H3>;
@@ -40,26 +45,57 @@ export const Home = () => {
     <H3>Empty State component - Implement refetch button {error.message}</H3>;
   }
 
-  const characters = characterMapper(data?.results);
-  const firstPageItems = characters.slice(0, 5);
-  const secondPageItems = characters.slice(5);
+  const shownCharacters = getShownCharacters(paginationNumber, data?.results);
 
-  const remainder = paginationNumber % 2;
+  const handleChangeText = (text: string) => {
+    setFilterSearch(text.toLowerCase());
+  };
 
-  let shownCharacters;
+  const handlePageChange = (page: number) => {
+    const division = Math.floor(page / 2);
+    const remainder = page % 2;
+    const newPage = division + remainder;
 
-  if (remainder === 1) {
-    shownCharacters = firstPageItems;
-  } else {
-    shownCharacters = secondPageItems;
-  }
+    if (newPage !== apiPage) {
+      setApiPage(newPage);
+    }
+
+    setPaginationNumber(page);
+  };
+
+  const handleCancelPress = () => {
+    setPaginationNumber(1);
+    setApiPage(1);
+    setFilterQueryParam('');
+    setFilterSearch('');
+    refetch();
+  };
+
+  const handleSearchPress = () => {
+    setPaginationNumber(1);
+    setApiPage(1);
+    setFilterQueryParam(filterSearch);
+    refetch();
+  };
+
+  console.log('paginationNumber', paginationNumber);
+  console.log('apiPage', apiPage);
+  console.log('filterQueryParam', filterQueryParam);
 
   return isSuccess ? (
     <SafeAreaView>
       <ScreenContainer>
-        <Spacer size="xs" />
-        <H1>Rick and Morty</H1>
         <Spacer size="s" />
+        <RickAndMortyImage source={rickAndMortyImage} />
+        <Spacer size="m" />
+        <SearchBar
+          filterSearch={filterSearch}
+          showCancelButton={filterSearch !== ''}
+          onCancelPress={handleCancelPress}
+          onChangeText={handleChangeText}
+          onSearchPress={handleSearchPress}
+        />
+        <Spacer size="m" />
         <StyledScrollView
           contentInsetAdjustmentBehavior="automatic"
           showsVerticalScrollIndicator={false}>
@@ -91,17 +127,7 @@ export const Home = () => {
             activeBtnStyle={{
               opacity: 0.8,
             }}
-            onPageChange={page => {
-              const division = Math.floor(page / 2);
-              const remainder = page % 2;
-              const newPage = division + remainder;
-
-              if (newPage !== apiPage) {
-                setApiPage(newPage);
-              }
-
-              setPaginationNumber(page);
-            }}
+            onPageChange={handlePageChange}
             showLastPagesButtons
           />
         </StyledScrollView>
