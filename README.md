@@ -18,3 +18,8 @@ You can see the final result running `npm i` + `npx react-native run start` from
 - Cache was implemented in the two queries used in the project thanks to `React Query query keys`.
 - `react-native-reanimated` was used to animate the `Character` screen.
 - `Pagination` was implemented in the Home screen to be able to navigate through all possible elements that the API returns.
+
+## Live Recording
+
+https://github.com/fvalles/rick-and-morty/assets/50526650/d12ab3a8-c90e-463d-b754-c96f0c9f26d2
+
