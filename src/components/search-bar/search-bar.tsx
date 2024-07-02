@@ -54,8 +54,9 @@ export const SearchBar = ({
         value={filterSearch}
         placeholder="Search character by name..."
         placeholderTextColor={Colors.nightBrown}
+        testID='search-text-input'
       />
-      <IconButtonContainer onPress={onSearchPress}>
+      <IconButtonContainer onPress={onSearchPress} testID='search-button'>
         <Icon
           name="search-outline"
           width={25}
@@ -64,7 +65,7 @@ export const SearchBar = ({
         />
       </IconButtonContainer>
       {showCancelButton && (
-        <IconButtonContainer onPress={onCancelPress}>
+        <IconButtonContainer onPress={onCancelPress} testID='cancel-button'>
           <Icon
             name="close-circle-outline"
             width={25}
