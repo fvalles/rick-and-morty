@@ -2,7 +2,7 @@ import {TouchableOpacity} from 'react-native';
 import {H3} from '../../components/typography';
 import styled from '@emotion/native';
 import {Spacer} from '../spacer';
-import {CharacterDto} from '../../screens/home/types';
+import {CharacterDto} from '../../types';
 
 /**
  * Constants

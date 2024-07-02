@@ -106,7 +106,7 @@ export const Home = () => {
                     id={id}
                     name={name}
                     image={image}
-                    onPress={() => navigate('Character')}
+                    onPress={() => navigate('Character', {id})}
                     key={id}
                   />
                 ))}

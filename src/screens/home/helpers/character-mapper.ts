@@ -1,4 +1,4 @@
-import {CharacterDto} from '../types';
+import {CharacterDto} from '../../../types';
 
 export const characterMapper = (characterDto?: CharacterDto[]) => {
   if (!characterDto) {

@@ -1,7 +1,8 @@
 export enum QueryKey {
+    SINGLE_CHARACTER = "SINGLE_CHARACTER",
     CHARACTERS = "CHARACTERS"
 }
 
 export enum ApiEndpoint {
-    CHARACTERS = 'https://rickandmortyapi.com/api/character'
+    CHARACTER = 'https://rickandmortyapi.com/api/character'
 }

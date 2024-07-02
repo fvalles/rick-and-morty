@@ -1,6 +1,6 @@
 import {UseQueryResult, useQuery} from '@tanstack/react-query';
 import {ApiEndpoint, QueryKey} from '../../../constants';
-import {CharactersDto} from '../types';
+import {CharactersDto} from '../../../types';
 
 /**
  * fetchCharacters helper
@@ -13,7 +13,7 @@ const fetchCharacters = async (
   const filterQueryParams = filterSearch !== '' ? `&name=${filterSearch}` : '';
 
   const response = await fetch(
-    `${ApiEndpoint.CHARACTERS}?page=${page}${filterQueryParams}`,
+    `${ApiEndpoint.CHARACTER}?page=${page}${filterQueryParams}`,
   );
   const result = await response.json();
 

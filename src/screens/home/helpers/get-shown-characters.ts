@@ -1,4 +1,4 @@
-import {CharacterDto} from '../types';
+import {CharacterDto} from '../../../types';
 import {characterMapper} from './character-mapper';
 
 export const getShownCharacters = (
