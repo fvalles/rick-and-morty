@@ -42,7 +42,7 @@ export const Home = () => {
   }
 
   if (isError) {
-    <H3>Empty State component - Implement refetch button {error.message}</H3>;
+    <H3>Empty State component with refetch button - {error.message}</H3>;
   }
 
   const shownCharacters = getShownCharacters(paginationNumber, data?.results);
