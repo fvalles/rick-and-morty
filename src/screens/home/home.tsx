@@ -4,7 +4,7 @@ import {useFetchCharacters} from './queries/use-fetch-characters';
 import {Spacer} from '../../components/spacer';
 import {H3} from '../../components/typography';
 import {CharacterCard} from '../../components/character-card';
-import {Fragment, useCallback, useState} from 'react';
+import {Fragment, useCallback, useMemo, useState} from 'react';
 import {SafeAreaView} from 'react-native';
 import {
   CharacterRow,
@@ -45,7 +45,10 @@ export const Home = () => {
     <H3>Empty State component with refetch button - {error.message}</H3>;
   }
 
-  const shownCharacters = getShownCharacters(paginationNumber, data?.results);
+  const shownCharacters = useMemo(
+    () => getShownCharacters(paginationNumber, data?.results),
+    [paginationNumber, data?.results],
+  );
 
   const handleChangeText = useCallback((text: string) => {
     setFilterSearch(text.toLowerCase());
