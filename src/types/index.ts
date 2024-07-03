@@ -33,4 +33,5 @@ export interface InfoDto {
 export interface CharactersDto {
   info: InfoDto;
   results: CharacterDto[];
+  error?: string;
 }

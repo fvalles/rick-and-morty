@@ -20,3 +20,10 @@ export const ScreenContainer = styled.View`
   height: 100%;
   padding: 0px 25px 0px;
 `;
+
+export const CenteredContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+`;

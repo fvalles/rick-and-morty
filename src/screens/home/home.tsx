@@ -7,6 +7,7 @@ import {CharacterCard} from '../../components/character-card';
 import {Fragment, useCallback, useMemo, useState} from 'react';
 import {SafeAreaView} from 'react-native';
 import {
+  CenteredContainer,
   CharacterRow,
   RickAndMortyImage,
   ScreenContainer,
@@ -34,16 +35,8 @@ export const Home = () => {
   const [paginationNumber, setPaginationNumber] = useState(1);
   const [filterSearch, setFilterSearch] = useState('');
   const [filterQueryParam, setFilterQueryParam] = useState('');
-  const {isPending, isError, data, error, isSuccess, refetch} =
+  const {isPending, isError, data, isSuccess, refetch, isFetching} =
     useFetchCharacters(apiPage, filterQueryParam);
-
-  if (isPending) {
-    <H3>Loading animation lootie</H3>;
-  }
-
-  if (isError) {
-    <H3>Empty State component with refetch button - {error.message}</H3>;
-  }
 
   const shownCharacters = useMemo(
     () => getShownCharacters(paginationNumber, data?.results),
@@ -84,6 +77,24 @@ export const Home = () => {
     refetch();
   }, [filterSearch]);
 
+  if (isPending || isFetching) {
+    return (
+      <CenteredContainer>
+        <H3>Loading animation lootie</H3>
+      </CenteredContainer>
+    );
+  }
+
+  if (isError) {
+    return (
+      <SafeAreaView>
+        <ScreenContainer>
+          <H3>Empty State component with refetch button - {data?.error}</H3>
+        </ScreenContainer>
+      </SafeAreaView>
+    );
+  }
+
   return isSuccess ? (
     <SafeAreaView>
       <ScreenContainer>
@@ -98,41 +109,47 @@ export const Home = () => {
           onSearchPress={handleSearchPress}
         />
         <Spacer size="m" />
-        <StyledScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          showsVerticalScrollIndicator={false}>
-          {shownCharacters.map((characterRow, index) => (
-            <Fragment key={index}>
-              <CharacterRow>
-                {characterRow.map(({id, name, image}) => (
-                  <CharacterCard
-                    id={id}
-                    name={name}
-                    image={image}
-                    onPress={() => navigate('Character', {id})}
-                    key={id}
-                  />
-                ))}
-              </CharacterRow>
-              <Spacer size="s" />
-            </Fragment>
-          ))}
-          <Pagination
-            totalItems={data.info.count}
-            pageSize={ITEMS_PER_PAGE}
-            currentPage={paginationNumber}
-            pagesToDisplay={2}
-            btnStyle={{
-              backgroundColor: Colors.nightBrown,
-              borderColor: Colors.nightBrown,
-            }}
-            activeBtnStyle={{
-              opacity: 0.8,
-            }}
-            onPageChange={handlePageChange}
-            showLastPagesButtons
-          />
-        </StyledScrollView>
+        {data?.error ? (
+          <CenteredContainer>
+            <H3>No characters found - Please try again</H3>
+          </CenteredContainer>
+        ) : (
+          <StyledScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            showsVerticalScrollIndicator={false}>
+            {shownCharacters.map((characterRow, index) => (
+              <Fragment key={index}>
+                <CharacterRow>
+                  {characterRow.map(({id, name, image}) => (
+                    <CharacterCard
+                      id={id}
+                      name={name}
+                      image={image}
+                      onPress={() => navigate('Character', {id})}
+                      key={id}
+                    />
+                  ))}
+                </CharacterRow>
+                <Spacer size="s" />
+              </Fragment>
+            ))}
+            <Pagination
+              totalItems={data.info.count}
+              pageSize={ITEMS_PER_PAGE}
+              currentPage={paginationNumber}
+              pagesToDisplay={2}
+              btnStyle={{
+                backgroundColor: Colors.nightBrown,
+                borderColor: Colors.nightBrown,
+              }}
+              activeBtnStyle={{
+                opacity: 0.8,
+              }}
+              onPageChange={handlePageChange}
+              showLastPagesButtons
+            />
+          </StyledScrollView>
+        )}
       </ScreenContainer>
     </SafeAreaView>
   ) : null;
